@@ -5,6 +5,30 @@
 
 Here are the step-by-step details to set up an end-to-end Jenkins pipeline for a Java application using SonarQube, Argo CD, Helm, and Kubernetes:
 
+CI-CD implementation 
+
+
+We have setup , we have git repository where we have	 application source code, I am talking about java application now as soon as developer raised pull request to the git repository, we have configure webhooks 
+Using the webhooks we trigger the Jenkins pipeline here we have used Jenkins declarative pipeline as part of declarative pipeline we ran multiple stages some of the stages are 
+CI Process 
+1st stage would be the Build stage – using the build stage using maven tool we build the application, and the build stage is successful where we also   execute some unit test cases 
+2nd stage static code analysis using the static code analysis verify that the application also checks any security vulnerability 
+3rd once this is passed, we would create docker image again using the shell command we pushed this docker image to docker container registry 
+Now is this our CI process 
+
+CD process 
+
+We used git as our source code repository and our target platform is K8 
+
+1)	Once we pushed this docker image to docker container registry we have k8 cluster inside the k8 cluster we have deployed 2 continues delivery tool 1) argo image updater 2) ARGO CD 
+Both these are k8 controller deployed on an our k8 cluster  
+
+2)	ARGO image update – will do it would continuously monitor the image registry as soon as the new image is created it will pick the new image update the new image in another git we have 
+This GitHub repository is purely for the image manifest that is our HELM charts (like pod.yaml ,deploy.yaml, service.yaml) 
+3)	As soon as the new image update in the git hub repository then the other k8 controller we have that is ARGO CD it takes the new image and deployed into an k8 cluster 
+This is our CD Process. So, this is how we have set up CI-CD in our organization
+
+
 Prerequisites:
 
    -  Java application code hosted on a Git repository
